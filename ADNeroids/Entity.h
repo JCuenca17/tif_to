@@ -15,7 +15,7 @@ constexpr float BASE_ANCHO = 120.0f;
 constexpr float BASE_ALTO = 120.0f;
 constexpr float BASE_GIRO = 30.0f;
 constexpr float BASE_VEL = 100.0f;
-constexpr float BASE_SPAWN_TIME = 3.0f;
+constexpr float BASE_SPAWN_TIME = 10.0f;
 
 enum colores {
 	AMARILLO,
@@ -28,6 +28,10 @@ class Entity {
 public:
 	Entity(sf::Vector2f posicion, float angulo, int color) :
 		posicion(posicion), angulo(angulo), color(color) {
+	}
+
+	~Entity() {
+		printf("Elemento eliminado");
 	}
 
 

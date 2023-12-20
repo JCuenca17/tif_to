@@ -1,5 +1,7 @@
 #include "Proyectil.h"
 #include "Game.h"
+#include "BaseNitrogenada.h"
+#include "Fisicas.h"
 
 Proyectil::Proyectil(sf::Vector2f posicion, sf::Vector2f direccion, int color) 
 	: figura(4.0f), direccion(direccion), Entity(posicion, 0.0f, color), lifetime(PROY_LIFE) {
@@ -11,6 +13,20 @@ void Proyectil::update(float deltaTime) {
 	posicion += direccion * VEL_PROYECTIL * deltaTime;
 	if (lifetime <= 0.0f) {
 		Game::toRemoveList.push_back(std::find(Game::entidades.begin(), Game::entidades.end(), this));
+	}
+
+	for (size_t i = 0; i < Game::entidades.size(); i++) {
+		if (typeid(*Game::entidades[i]) == typeid(BaseNitrogenada)) {
+			BaseNitrogenada* base = dynamic_cast<BaseNitrogenada*>(Game::entidades[i]);
+			sf::Transform transform = sf::Transform()
+				.translate(base->posicion)
+				.rotate(base->angulo);
+
+			if (fisicas::intersecta(posicion,
+				fisicas::getTransformed(base->getVertexArray(), transform))) {
+				lifetime = 0.0f;
+			}
+		}
 	}
 }
 

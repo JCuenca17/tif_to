@@ -13,6 +13,8 @@ public:
 
 	void pintarFigura(int color, sf::VertexArray& fig);
 
+	const sf::VertexArray& getVertexArray() const;
+
 	static sf::Vector2f getRandomDirection();
 
 	static sf::Vector2f getRandomPosition();

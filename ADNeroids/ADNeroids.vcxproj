@@ -131,6 +131,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BaseNitrogenada.cpp" />
+    <ClCompile Include="Fisicas.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Jugador.cpp" />
     <ClCompile Include="main.cpp" />
@@ -139,6 +140,7 @@
   <ItemGroup>
     <ClInclude Include="BaseNitrogenada.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="Fisicas.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="Jugador.h" />

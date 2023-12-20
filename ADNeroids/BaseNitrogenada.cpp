@@ -60,6 +60,10 @@ void BaseNitrogenada::pintarFigura(int color, sf::VertexArray& fig) {
 	}
 }
 
+const sf::VertexArray& BaseNitrogenada::getVertexArray() const {
+	return figura;
+}
+
 sf::Vector2f BaseNitrogenada::getRandomDirection() {
 	std::random_device rd;
 	std::mt19937 gen(rd());
