@@ -1,6 +1,14 @@
 #pragma once
 #include "Entity.h"
 #include "Global.h"
+#include <SFML/Audio.hpp>
+#include <SFML/Audio.hpp>
+
+constexpr float JUG_ANCHO = 50.0f;
+constexpr float JUG_ALTO = 40.0f;
+constexpr float VEL_ANG = 200.0f;
+constexpr float VEL_JUG = 200.0f;
+constexpr float CAMBIO_DELAY = 0.2f;
 
 class Jugador : public Entity {
 public:
@@ -14,6 +22,7 @@ public:
 
 private:
 	sf::VertexArray figura;
+	sf::Sound disparoSound;
 	float disparoTimer;
 	float cambioProyectilTimer;
 };

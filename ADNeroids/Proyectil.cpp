@@ -22,9 +22,21 @@ void Proyectil::update(float deltaTime) {
 				.translate(base->posicion)
 				.rotate(base->angulo);
 
+			// Logica de colision
 			if (fisicas::intersecta(posicion,
 				fisicas::getTransformed(base->getVertexArray(), transform))) {
 				lifetime = 0.0f;
+				
+				// Logica de color
+				if ((this->color == AMARILLO && base->color == ROJO) ||
+					(this->color == ROJO && base->color == AMARILLO) ||
+					(this->color == VERDE && base->color == AZUL) ||
+					(this->color == AZUL && base->color == VERDE)) {
+
+					Game::toRemoveList.push_back(
+						std::find(Game::entidades.begin(), Game::entidades.end(), base));
+					Game::puntuacion += 10;
+				}
 			}
 		}
 	}

@@ -10,6 +10,8 @@ Jugador::Jugador()
 	figura[3].position = sf::Vector2f(-20, 20);
 
 	pintarFigura(color, figura);
+
+	disparoSound.setBuffer(Game::soundBuffers["shoot"]);
 }
 
 void Jugador::update(float deltaTime) {
@@ -34,6 +36,7 @@ void Jugador::update(float deltaTime) {
 	posicion.y = std::min(std::max(posicion.y, JUG_ALTO / 2.0f), ALTO - JUG_ALTO / 2.0f);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && disparoTimer <= 0.0f) {
+		disparoSound.play();
 		disparoTimer = DELAY;
 		float radianes = angulo * (M_PI / 180.0f);
 		Game::toAddList.push_back(

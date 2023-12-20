@@ -1,5 +1,6 @@
 #pragma once
 #include "Entity.h"
+#include <SFML/Audio.hpp>
 
 class Proyectil : public Entity {
 public:
