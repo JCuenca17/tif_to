@@ -2,19 +2,21 @@
 #include <random>
 
 BaseNitrogenada::BaseNitrogenada(sf::Vector2f direccion, sf::Vector2f posicion)
-	: Entity(posicion, 0, ROJO), direccion(direccion), figura(sf::LinesStrip, 6) {
+	: Entity(posicion, 0, ROJO), direccion(direccion), figura(sf::LinesStrip, 6), life() {
 
-	figura[0].position = sf::Vector2f(0, 60);
-	figura[1].position = sf::Vector2f(60, 0);
-	figura[2].position = sf::Vector2f(30, -60);
-	figura[3].position = sf::Vector2f(-30, -60);
-	figura[4].position = sf::Vector2f(-60, 0);
+	figura[0].position = sf::Vector2f(0, 40);
+	figura[1].position = sf::Vector2f(40, 0);
+	figura[2].position = sf::Vector2f(20, -40);
+	figura[3].position = sf::Vector2f(-20, -40);
+	figura[4].position = sf::Vector2f(-40, 0);
 	figura[5].position = figura[0].position;
 
 	pintarFigura(color, figura);
 }
 
 void BaseNitrogenada::update(float deltaTime) {
+	life += deltaTime;
+
 	posicion += BASE_VEL * direccion * deltaTime;
 	angulo += BASE_GIRO * deltaTime;
 

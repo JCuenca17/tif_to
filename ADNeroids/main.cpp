@@ -1,10 +1,17 @@
 #include "Game.h"
 #include "Global.h"
+#include "Fisicas.h"
 
 int main() {
-	sf::RenderWindow window(sf::VideoMode(unsigned int(ANCHO),unsigned int(ALTO)), "ADNeroids Game", sf::Style::Close | sf::Style::Titlebar);
+	sf::RenderWindow window(sf::VideoMode(unsigned int(ANCHO), unsigned int(ALTO)), "ADNeroids Game", sf::Style::Close | sf::Style::Titlebar);
 	sf::Clock clock;
 
+	sf::VertexArray poly1(sf::LinesStrip);
+	sf::VertexArray poly2(sf::LinesStrip);
+
+	enum { POLY_1, POLY_2, TEST } state = POLY_1;
+
+	Game::init();
 	Game::begin();
 
 	while (window.isOpen()) {
@@ -16,6 +23,7 @@ int main() {
 			}
 		}
 		Game::update(window, deltaTime);
+
 		window.display();
 	}
 }

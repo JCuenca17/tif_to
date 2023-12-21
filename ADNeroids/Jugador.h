@@ -22,7 +22,6 @@ public:
 
 private:
 	sf::VertexArray figura;
-	sf::Sound disparoSound;
 	float disparoTimer;
 	float cambioProyectilTimer;
 };

@@ -5,12 +5,6 @@ constexpr float VEL_PROYECTIL = 400.0f;
 constexpr float DELAY = 0.5f;
 constexpr float PROY_LIFE = 3.0f;
 
-constexpr float BASE_ANCHO = 120.0f;
-constexpr float BASE_ALTO = 120.0f;
-constexpr float BASE_GIRO = 30.0f;
-constexpr float BASE_VEL = 100.0f;
-constexpr float BASE_SPAWN_TIME = 5.0f;
-
 enum colores {
 	AMARILLO,
 	ROJO,

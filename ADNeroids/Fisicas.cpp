@@ -24,6 +24,45 @@ bool fisicas::intersecta(const sf::Vector2f& point, const sf::VertexArray& polig
 	
 }
 
+bool fisicas::intersecta(const sf::VertexArray& poly1, const sf::VertexArray& poly2) {
+	size_t n1 = poly1.getVertexCount() - 1;
+	size_t n2 = poly2.getVertexCount() - 1;
+
+	for (size_t i = 0; i < n1; i++) {
+		sf::Vector2f esquina = poly1[i].position - poly1[(i + 1) % n1].position;
+		sf::Vector2f normal(-esquina.y, esquina.x);
+
+		// Normalizando el vector
+		float length = sqrt(normal.x * normal.x + normal.y * normal.y);
+		normal /= length;
+
+		// Limites
+		float min1 = std::numeric_limits<float>::max();
+		float max1 = std::numeric_limits<float>::min();
+		float min2 = std::numeric_limits<float>::max();
+		float max2 = std::numeric_limits<float>::min();
+
+		for (size_t j = 0; j < n1; j++) {
+			float proyeccion = poly1[j].position.x * normal.x + poly1[j].position.y * normal.y;
+			min1 = std::min(min1, proyeccion);
+			max1 = std::max(max1, proyeccion);
+		}
+		
+		for (size_t j = 0; j < n2; j++) {
+			float proyeccion = poly2[j].position.x * normal.x + poly2[j].position.y * normal.y;
+			min2 = std::min(min2, proyeccion);
+			max2 = std::max(max2, proyeccion);
+		}
+
+		if (max1 < min2 || max2 < min1) {
+			return false;
+		}
+
+	}
+
+	return true;
+}
+
 sf::VertexArray fisicas::getTransformed(const sf::VertexArray& poligono,
 	const sf::Transform& transform) {
 	sf::VertexArray transformed = poligono;

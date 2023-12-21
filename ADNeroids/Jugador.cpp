@@ -1,17 +1,17 @@
 #include "Jugador.h"
 #include "Proyectil.h"
 #include "Game.h"
+#include "Fisicas.h"
+#include "BaseNitrogenada.h"
+#include "Global.h"
 
 Jugador::Jugador() 
 	: Entity(sf::Vector2f(ANCHO / 2, ALTO / 2), 0, AMARILLO), figura(sf::Quads, 4), disparoTimer() {
-	figura[0].position = sf::Vector2f(20, 0);
+	figura[0].position = sf::Vector2f(30, 0);
 	figura[1].position = sf::Vector2f(-20, -20);
-	figura[2].position = sf::Vector2f(-10, 0);
-	figura[3].position = sf::Vector2f(-20, 20);
+	figura[2].position = sf::Vector2f(-20, 20);
 
 	pintarFigura(color, figura);
-
-	disparoSound.setBuffer(Game::soundBuffers["shoot"]);
 }
 
 void Jugador::update(float deltaTime) {
@@ -35,13 +35,6 @@ void Jugador::update(float deltaTime) {
 	posicion.x = std::min(std::max(posicion.x, JUG_ANCHO / 2.0f), ANCHO - JUG_ANCHO / 2.0f);
 	posicion.y = std::min(std::max(posicion.y, JUG_ALTO / 2.0f), ALTO - JUG_ALTO / 2.0f);
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && disparoTimer <= 0.0f) {
-		disparoSound.play();
-		disparoTimer = DELAY;
-		float radianes = angulo * (M_PI / 180.0f);
-		Game::toAddList.push_back(
-			new Proyectil(posicion, sf::Vector2f(cos(radianes), sin(radianes)), color));
-	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E) && cambioProyectilTimer <= 0.0f) {
 		cambioProyectilTimer = CAMBIO_DELAY;
 		if (color == AZUL)
@@ -57,6 +50,35 @@ void Jugador::update(float deltaTime) {
 		else
 			color--;
 		pintarFigura(color, figura);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && disparoTimer <= 0.0f) {
+		Game::disparoSonido.play();
+		disparoTimer = DELAY;
+		float radianes = angulo * (M_PI / 180.0f);
+		Game::toAddList.push_back(
+			new Proyectil(posicion, sf::Vector2f(cos(radianes), sin(radianes)), color));
+	}
+
+	sf::Transform jugadorTransform = sf::Transform().translate(posicion).rotate(angulo);
+
+	for (size_t i = 0; i < Game::entidades.size(); i++) {
+		if (typeid(*Game::entidades[i]) == typeid(BaseNitrogenada)) {
+			BaseNitrogenada* base = dynamic_cast<BaseNitrogenada*>(Game::entidades[i]);
+
+			if (base->getLife() < BASE_HIT_TIME) {
+				continue;
+			}
+
+			sf::Transform baseTransform = sf::Transform()
+				.translate(base->posicion)
+				.rotate(base->angulo);
+
+			// Logica de colision
+			if (fisicas::intersecta(fisicas::getTransformed(figura, jugadorTransform),
+				fisicas::getTransformed(base->getVertexArray(), baseTransform))) {
+				Game::gameOver();
+			}
+		}
 	}
 }
 
