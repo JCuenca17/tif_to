@@ -20,6 +20,8 @@ public:
 
 	void pintarFigura(int color, sf::VertexArray& fig);
 
+	sf::VertexArray getFigura();
+
 private:
 	sf::VertexArray figura;
 	float disparoTimer;

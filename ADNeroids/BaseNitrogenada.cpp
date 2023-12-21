@@ -78,8 +78,19 @@ sf::Vector2f BaseNitrogenada::getRandomDirection() {
 sf::Vector2f BaseNitrogenada::getRandomPosition() {
 	std::random_device rd;
 	std::mt19937 gen(rd());
-	std::uniform_real_distribution<float> xAxis(BASE_ANCHO / 2.0f, ANCHO - BASE_ANCHO / 2.0f);
-	std::uniform_real_distribution<float> yAxis(BASE_ALTO / 2.0f, ALTO - BASE_ALTO / 2.0f);
+	std::uniform_real_distribution<float> xAxis(BASE_ANCHO, ANCHO);
+	std::uniform_real_distribution<float> yAxis(BASE_ALTO, ALTO);
 
-	return sf::Vector2f(xAxis(gen), yAxis(gen));
+	float x = xAxis(gen); 
+	float y = yAxis(gen);
+
+	while (x > ANCHO * .3 && x < ANCHO * .7) {
+		x = xAxis(gen);
+	}
+
+	while (x > ANCHO * .3 && x < ANCHO * .7) {
+		y = yAxis(gen);
+	}
+
+	return sf::Vector2f(x,y);
 }

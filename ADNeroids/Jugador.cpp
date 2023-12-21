@@ -4,12 +4,14 @@
 #include "Fisicas.h"
 #include "BaseNitrogenada.h"
 #include "Global.h"
+#include <iostream>
 
 Jugador::Jugador() 
-	: Entity(sf::Vector2f(ANCHO / 2, ALTO / 2), 0, AMARILLO), figura(sf::Quads, 4), disparoTimer() {
+	: Entity(sf::Vector2f(ANCHO / 2, ALTO / 2), 0, AMARILLO), figura(sf::LinesStrip, 4), disparoTimer() {
 	figura[0].position = sf::Vector2f(30, 0);
 	figura[1].position = sf::Vector2f(-20, -20);
 	figura[2].position = sf::Vector2f(-20, 20);
+	figura[3].position = figura[0].position;
 
 	pintarFigura(color, figura);
 }
@@ -59,6 +61,11 @@ void Jugador::update(float deltaTime) {
 			new Proyectil(posicion, sf::Vector2f(cos(radianes), sin(radianes)), color));
 	}
 
+	/*for (size_t i = 0; i < figura.getVertexCount(); ++i) {
+		std::cout << "Vértice " << i << ": x = " << figura[i].position.x << ", y = " << figura[i].position.y << std::endl;
+	}*/
+
+
 	sf::Transform jugadorTransform = sf::Transform().translate(posicion).rotate(angulo);
 
 	for (size_t i = 0; i < Game::entidades.size(); i++) {
@@ -72,6 +79,7 @@ void Jugador::update(float deltaTime) {
 			sf::Transform baseTransform = sf::Transform()
 				.translate(base->posicion)
 				.rotate(base->angulo);
+
 
 			// Logica de colision
 			if (fisicas::intersecta(fisicas::getTransformed(figura, jugadorTransform),
@@ -107,4 +115,8 @@ void Jugador::pintarFigura(int color, sf::VertexArray& fig) {
 			figura[i].color = sf::Color::Blue;
 		}
 	}
+}
+
+sf::VertexArray Jugador::getFigura() {
+	return sf::VertexArray();
 }

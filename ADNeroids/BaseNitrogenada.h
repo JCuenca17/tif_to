@@ -28,6 +28,10 @@ public:
 
 	float getLife() { return life; }
 
+	sf::VertexArray getFigura(){
+		return figura;
+	}
+
 private:
 	sf::VertexArray figura;
 	sf::Vector2f direccion;

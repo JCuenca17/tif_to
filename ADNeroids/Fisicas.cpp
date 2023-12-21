@@ -1,4 +1,5 @@
 #include "Fisicas.h"
+#include <iostream>
 
 bool fisicas::intersecta(const sf::Vector2f& point, const sf::VertexArray& poligono) {
 	size_t n = poligono.getVertexCount() - 1;
@@ -25,43 +26,53 @@ bool fisicas::intersecta(const sf::Vector2f& point, const sf::VertexArray& polig
 }
 
 bool fisicas::intersecta(const sf::VertexArray& poly1, const sf::VertexArray& poly2) {
-	size_t n1 = poly1.getVertexCount() - 1;
-	size_t n2 = poly2.getVertexCount() - 1;
+    // Iterar sobre los vértices del polígono 1
+    for (size_t i = 0; i < poly1.getVertexCount(); ++i) {
+        // Obtener el vértice actual
+        sf::Vector2f punto = poly1[i].position;
 
-	for (size_t i = 0; i < n1; i++) {
-		sf::Vector2f esquina = poly1[i].position - poly1[(i + 1) % n1].position;
-		sf::Vector2f normal(-esquina.y, esquina.x);
+        // Verificar si el vértice está dentro del polígono 2
+        if (puntoEnPoligono(punto, poly2)) {
+            return true;  // Colisión detectada
+        }
+    }
 
-		// Normalizando el vector
-		float length = sqrt(normal.x * normal.x + normal.y * normal.y);
-		normal /= length;
+    // Iterar sobre los vértices del polígono 2
+    for (size_t i = 0; i < poly2.getVertexCount(); ++i) {
+        // Obtener el vértice actual
+        sf::Vector2f punto = poly2[i].position;
 
-		// Limites
-		float min1 = std::numeric_limits<float>::max();
-		float max1 = std::numeric_limits<float>::min();
-		float min2 = std::numeric_limits<float>::max();
-		float max2 = std::numeric_limits<float>::min();
+        // Verificar si el vértice está dentro del polígono 1
+        if (puntoEnPoligono(punto, poly1)) {
+            return true;  // Colisión detectada
+        }
+    }
 
-		for (size_t j = 0; j < n1; j++) {
-			float proyeccion = poly1[j].position.x * normal.x + poly1[j].position.y * normal.y;
-			min1 = std::min(min1, proyeccion);
-			max1 = std::max(max1, proyeccion);
-		}
-		
-		for (size_t j = 0; j < n2; j++) {
-			float proyeccion = poly2[j].position.x * normal.x + poly2[j].position.y * normal.y;
-			min2 = std::min(min2, proyeccion);
-			max2 = std::max(max2, proyeccion);
-		}
-
-		if (max1 < min2 || max2 < min1) {
-			return false;
-		}
-
-	}
-
-	return true;
+    // No se detectó colisión
+    return false;
 }
+
+bool fisicas::puntoEnPoligono(const sf::Vector2f& punto, const sf::VertexArray& poligono) {
+    // Contador de intersecciones con las aristas del polígono
+    int intersecciones = 0;
+
+    // Iterar sobre las aristas del polígono
+    for (size_t i = 0; i < poligono.getVertexCount(); ++i) {
+        // Obtener los vértices de la arista
+        sf::Vector2f v1 = poligono[i].position;
+        sf::Vector2f v2 = poligono[(i + 1) % poligono.getVertexCount()].position;
+
+        // Verificar si el punto está a la izquierda de la arista
+        if ((v1.y > punto.y) != (v2.y > punto.y) &&
+            punto.x < (v2.x - v1.x) * (punto.y - v1.y) / (v2.y - v1.y) + v1.x) {
+            intersecciones++;
+        }
+    }
+
+    // El punto está dentro del polígono si el número de intersecciones es impar
+    return intersecciones % 2 == 1;
+}
+
 
 sf::VertexArray fisicas::getTransformed(const sf::VertexArray& poligono,
 	const sf::Transform& transform) {
