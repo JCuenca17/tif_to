@@ -25,6 +25,7 @@ public:
 
 	virtual void update(float deltaTime) = 0;
 	virtual void render(sf::RenderWindow& window) = 0;
+	virtual void pintarFigura(int color, sf::VertexArray& fig) = 0;
 
 	sf::Vector2f posicion;
 	float angulo;

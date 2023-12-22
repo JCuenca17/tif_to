@@ -9,6 +9,8 @@ public:
 
 	void render(sf::RenderWindow& window) override;
 
+	void pintarFigura(int color, sf::VertexArray& fig) override;
+
 	void pintarFigura(int color, sf::CircleShape& fig);
 private:
 	sf::Vector2f direccion;

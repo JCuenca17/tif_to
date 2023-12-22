@@ -16,12 +16,12 @@ void Proyectil::update(float deltaTime) {
 	}
 
 	for (size_t i = 0; i < Game::entidades.size(); i++) {
-		if (typeid(*Game::entidades[i]) == typeid(BaseNitrogenada)) {
-			BaseNitrogenada* base = dynamic_cast<BaseNitrogenada*>(Game::entidades[i]);
+		BaseNitrogenada* base = dynamic_cast<BaseNitrogenada*>(Game::entidades[i]);
+		if (base != nullptr) {
 			sf::Transform transform = sf::Transform()
 				.translate(base->posicion)
 				.rotate(base->angulo);
-
+			
 			// Logica de colision
 			if (fisicas::intersecta(posicion,
 				fisicas::getTransformed(base->getVertexArray(), transform))) {
@@ -44,6 +44,10 @@ void Proyectil::update(float deltaTime) {
 
 void Proyectil::render(sf::RenderWindow& window) {
 	window.draw(figura, sf::Transform().translate(posicion));
+}
+
+void Proyectil::pintarFigura(int color, sf::VertexArray& fig) {
+	return;
 }
 
 void Proyectil::pintarFigura(int color, sf::CircleShape& fig) {

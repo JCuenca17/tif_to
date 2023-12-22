@@ -69,19 +69,13 @@ void Jugador::update(float deltaTime) {
 	sf::Transform jugadorTransform = sf::Transform().translate(posicion).rotate(angulo);
 
 	for (size_t i = 0; i < Game::entidades.size(); i++) {
-		if (typeid(*Game::entidades[i]) == typeid(BaseNitrogenada)) {
-			BaseNitrogenada* base = dynamic_cast<BaseNitrogenada*>(Game::entidades[i]);
-
-			if (base->getLife() < BASE_HIT_TIME) {
-				continue;
-			}
-
+		BaseNitrogenada* base = dynamic_cast<BaseNitrogenada*>(Game::entidades[i]);
+		if (base != nullptr && base->getLife() >= BASE_HIT_TIME) {
 			sf::Transform baseTransform = sf::Transform()
 				.translate(base->posicion)
 				.rotate(base->angulo);
 
-
-			// Logica de colision
+			// Lógica de colisión
 			if (fisicas::intersecta(fisicas::getTransformed(figura, jugadorTransform),
 				fisicas::getTransformed(base->getVertexArray(), baseTransform))) {
 				Game::gameOver();

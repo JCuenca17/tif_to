@@ -139,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseNitrogenada.h" />
+    <ClInclude Include="Bases.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Fisicas.h" />
     <ClInclude Include="Game.h" />

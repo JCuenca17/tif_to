@@ -1,7 +1,8 @@
 #include "Game.h"
 #include "BaseNitrogenada.h"
 #include "Jugador.h"
-
+#include "Bases.h"
+#include <random>
 // Public static
 std::vector<Entity*> Game::entidades{};
 std::list<std::vector<Entity*>::const_iterator> Game::toRemoveList{};
@@ -66,7 +67,18 @@ void Game::update(sf::RenderWindow& window, float deltaTime) {
 	}
 
 	if (baseSpawnTime <= 0.0f) {
-		entidades.push_back(new BaseNitrogenada());
+
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_int_distribution<int> dist(1, 4);
+
+		int tipoBase = dist(gen); // Genera un número aleatorio entre 1 y 4
+		// 1 -> timina
+		// 2 -> citosina
+		// 3 -> adenina
+		// 4 -> guanina
+		BaseNitrogenada* nuevaBase = BaseNitrogenadaFactory::crearBaseNitrogenada(tipoBase);
+		entidades.push_back(nuevaBase);
 		baseSpawnTime = BASE_SPAWN_TIME;
 	}
 

@@ -18,7 +18,7 @@ public:
 
 	void render(sf::RenderWindow& window) override;
 
-	void pintarFigura(int color, sf::VertexArray& fig);
+	void pintarFigura(int color, sf::VertexArray& fig) override;
 
 	sf::VertexArray getFigura();
 
