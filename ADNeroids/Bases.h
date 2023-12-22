@@ -64,8 +64,8 @@ public:
 		figura[4].position = sf::Vector2f(40, -50);
 		figura[5].position = sf::Vector2f(0, -20);
 		figura[6].position = sf::Vector2f(-40, -40);
-		figura[7].position = sf::Vector2f(-40, 0);
-		figura[8].position = sf::Vector2f(40, 40);
+		figura[7].position = sf::Vector2f(-80, 0);
+		figura[8].position = sf::Vector2f(-40, 40);
 		figura[9].position = figura[0].position;
 
 	}
@@ -92,8 +92,8 @@ public:
 		figura[4].position = sf::Vector2f(40, -50);
 		figura[5].position = sf::Vector2f(0, -20);
 		figura[6].position = sf::Vector2f(-40, -40);
-		figura[7].position = sf::Vector2f(-40, 0);
-		figura[8].position = sf::Vector2f(40, 40);
+		figura[7].position = sf::Vector2f(-80, 0);
+		figura[8].position = sf::Vector2f(-40, 40);
 		figura[9].position = figura[0].position;
 
 	}
@@ -107,7 +107,15 @@ public:
 	}
 };
 
-class BaseNitrogenadaFactory {
+
+class EntityFactory {
+public:
+	virtual ~EntityFactory() = default;
+	virtual Entity* createEntity(int type) = 0;
+};
+
+
+class BaseNitrogenadaFactory: public Entity {
 public:
 	static BaseNitrogenada* crearBaseNitrogenada(int type);
 };

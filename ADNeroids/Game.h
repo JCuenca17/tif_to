@@ -22,6 +22,7 @@ public:
 
 	static sf::SoundBuffer disparoSoundBuffer;
 	static sf::Sound disparoSonido;
+	
 private:
 	static float baseSpawnTime;
 	static sf::Text puntuacionText;

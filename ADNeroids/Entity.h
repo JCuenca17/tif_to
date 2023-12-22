@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 
 constexpr float VEL_PROYECTIL = 400.0f;
-constexpr float DELAY = 0.5f;
+constexpr float DELAY = 0.4f;
 constexpr float PROY_LIFE = 3.0f;
 
 enum colores {
