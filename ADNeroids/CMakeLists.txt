@@ -1,36 +1,49 @@
 cmake_minimum_required(VERSION 3.6.0)
-project(Tetris VERSION 0.1.0 LANGUAGES CXX)
+project(ADNeroids VERSION 0.1.0 LANGUAGES CXX)
 
-include_directories(include)
-
-# Colocar la ruta de la biblioteca deacuerdo con su sistema
-set(SFML_DIR "C:/SFML-2.6.1/lib/cmake/SFML")
-find_package(SFML 2.6 COMPONENTS graphics REQUIRED)
-
-add_executable(ADNeroids 
+# Lista de archivos fuente
+set(SOURCES
     main.cpp
-    Entity.h
-    Game.h
     Game.cpp
-    Fisicas.h
     Fisicas.cpp
-    Jugador.h
     Jugador.cpp
-    Proyectil.h
     Proyectil.cpp
-    BaseNitrogenada.h
     BaseNitrogenada.cpp
-    Bases.h
-    Global.h)
+)
 
-target_include_directories(ADNeroids PUBLIC include)
+# Lista de archivos de recursos
+set(RESOURCES
+    font.ttf
+    shoot.wav
+)
 
-target_link_libraries(ADNeroids PUBLIC sfml-graphics)
+# Agregar los archivos fuente al ejecutable
+add_executable(ADNeroids ${SOURCES})
 
+# Copiar archivos de recursos al directorio de salida del ejecutable
+foreach(RESOURCE ${RESOURCES})
+    configure_file(${RESOURCE} ${CMAKE_CURRENT_BINARY_DIR}/Debug/${RESOURCE} COPYONLY)
+endforeach()
+
+# Configuración de SFML (reemplaza con tu configuración actual)
+set(SFML_DIR "C:/SFML-2.6.1/lib/cmake/SFML")
+find_package(SFML 2.6 COMPONENTS graphics audio window system network REQUIRED)
+include_directories("C:/SFML-2.6.1/include")
+
+# Obtener las bibliotecas de SFML sin el sufijo -d
+set(SFML_LIBRARIES
+    sfml-graphics
+    sfml-window
+    sfml-audio
+    sfml-system
+    sfml-network
+)
+
+# Enlazar SFML con el ejecutable
+target_link_libraries(ADNeroids PRIVATE ${SFML_LIBRARIES})
 
 # Copiar DLLs a la carpeta de salida
 add_custom_command(TARGET ADNeroids POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
                    "C:/SFML-2.6.1/bin"
                    $<TARGET_FILE_DIR:ADNeroids>)
-                
