@@ -117,10 +117,10 @@ public:
 
 class BaseNitrogenadaFactory: public Entity {
 public:
-	static BaseNitrogenada* crearBaseNitrogenada(int type);
+	static Entity* createEntity(int type);
 };
 
-BaseNitrogenada* BaseNitrogenadaFactory::crearBaseNitrogenada(int type) {
+Entity* BaseNitrogenadaFactory::createEntity(int type) {
 	switch (type) {
 	case 1:
 		return new Timina();

@@ -77,7 +77,7 @@ void Game::update(sf::RenderWindow& window, float deltaTime) {
 		// 2 -> citosina
 		// 3 -> adenina
 		// 4 -> guanina
-		BaseNitrogenada* nuevaBase = BaseNitrogenadaFactory::crearBaseNitrogenada(tipoBase);
+		BaseNitrogenada* nuevaBase = dynamic_cast<BaseNitrogenada*>(BaseNitrogenadaFactory::createEntity(tipoBase));
 		entidades.push_back(nuevaBase);
 		baseSpawnTime = BASE_SPAWN_TIME;
 	}
