@@ -7,7 +7,13 @@
 #include <cmath>
 
 Jugador::Jugador() 
-	: Entity(sf::Vector2f(ANCHO / 2, ALTO / 2), 0, AMARILLO), figura(sf::LinesStrip, 4), disparoTimer() {
+	: Entity(sf::Vector2f(ANCHO / 2, ALTO / 2), 0, AMARILLO),
+	figura(sf::LinesStrip, 4),
+	disparoTimer(),
+	acelerando(false),
+	velocidadActual(0.0f),
+	velocidadMaxima(VEL_JUG),
+	direccionActual(sf::Vector2f(0,0)) {
 	figura[0].position = sf::Vector2f(30, 0);
 	figura[1].position = sf::Vector2f(-20, -20);
 	figura[2].position = sf::Vector2f(-20, 20);
@@ -19,21 +25,53 @@ Jugador::Jugador()
 void Jugador::update(float deltaTime) {
 	disparoTimer -= deltaTime;
 	cambioProyectilTimer -= deltaTime;
+
+	// Declarar la variable direccionMovimiento al principio de la función
+	sf::Vector2f direccionMovimiento;
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 		angulo -= VEL_ANG * deltaTime;
+		velocidadActual -= VEL_DESACEL_GIRO * deltaTime;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 		angulo += VEL_ANG * deltaTime;
+		velocidadActual -= VEL_DESACEL_GIRO * deltaTime;
 	}
+
+	// Calcular la dirección de movimiento independientemente de si se presiona "Up"
+	float radianes = angulo * (M_PI / 180.0f);
+	direccionMovimiento = sf::Vector2f(cos(radianes), sin(radianes));
+
+	// Solo actualiza la dirección de movimiento cuando se presiona "Up"
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+		acelerando = true;
+		velocidadActual += VEL_JUG * deltaTime;
+		if (velocidadActual > velocidadMaxima) {
+			velocidadActual = velocidadMaxima;
+		}
 
-		float radianes = angulo * (M_PI / 180.0f);
+		direccionActual.x = direccionMovimiento.x;
+		direccionActual.y = direccionMovimiento.y;
 
-		posicion.x += cos(radianes) * VEL_JUG * deltaTime;
-		posicion.y += sin(radianes) * VEL_JUG * deltaTime;
+		// Actualiza la posición con la dirección de movimiento actual
+		posicion.x += direccionMovimiento.x * velocidadActual * deltaTime;
+		posicion.y += direccionMovimiento.y * velocidadActual * deltaTime;
+	}
+	else {
+		acelerando = false;
 
+		// Desaceleración gradual
+		velocidadActual -= VEL_DESACEL * deltaTime;
+		if (velocidadActual < 0.0f) {
+			velocidadActual = 0.0f;
+		}
+
+		// Actualiza la posición con la dirección de movimiento actual
+		posicion.x += direccionActual.x * velocidadActual * deltaTime;
+		posicion.y += direccionActual.y * velocidadActual * deltaTime;
 	}
 
+	// Restringir la posición dentro de los límites de la pantalla
 	posicion.x = std::min(std::max(posicion.x, JUG_ANCHO / 2.0f), ANCHO - JUG_ANCHO / 2.0f);
 	posicion.y = std::min(std::max(posicion.y, JUG_ALTO / 2.0f), ALTO - JUG_ALTO / 2.0f);
 
@@ -86,6 +124,19 @@ void Jugador::update(float deltaTime) {
 
 void Jugador::render(sf::RenderWindow& window) {
 	window.draw(figura, sf::Transform().translate(posicion).rotate(angulo));
+
+	// Dibujar llamas de aceleración
+	if (acelerando) {
+		sf::VertexArray llamas(sf::Triangles, 3);
+		llamas[0].position = sf::Vector2f(-25, 0);
+		llamas[1].position = sf::Vector2f(-30, 10);
+		llamas[2].position = sf::Vector2f(-30, -10);
+		llamas[0].color = sf::Color::Red;
+		llamas[1].color = sf::Color::Yellow;
+		llamas[2].color = sf::Color::White;
+
+		window.draw(llamas, sf::Transform().translate(posicion).rotate(angulo));
+	}
 }
 
 void Jugador::pintarFigura(int color, sf::VertexArray& fig) {

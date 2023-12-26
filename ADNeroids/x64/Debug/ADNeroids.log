@@ -1,4 +1,4 @@
-﻿  main.cpp
-C:\Users\super\source\repos\to_tif\ADNeroids\main.cpp(6,46): warning C4244: 'argumento': conversión de 'const float' a 'unsigned int'; posible pérdida de datos
-C:\Users\super\source\repos\to_tif\ADNeroids\main.cpp(6,40): warning C4244: 'argumento': conversión de 'const float' a 'unsigned int'; posible pérdida de datos
-  ADNeroids.vcxproj -> C:\Users\super\source\repos\to_tif\ADNeroids\x64\Debug\ADNeroids.exe
+﻿  Game.cpp
+  Jugador.cpp
+  Generando código...
+  ADNeroids.vcxproj -> C:\Users\super\source\repos\tif_to\ADNeroids\x64\Debug\ADNeroids.exe

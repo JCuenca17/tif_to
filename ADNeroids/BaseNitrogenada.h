@@ -7,7 +7,7 @@ constexpr float BASE_ALTO = 80.0f;
 constexpr float BASE_GIRO = 30.0f;
 constexpr float BASE_VEL = 120.0f;
 constexpr float BASE_HIT_TIME = 2.0f;
-constexpr float BASE_SPAWN_TIME = 1.0f;
+constexpr float BASE_SPAWN_TIME = 3.0f;
 
 class BaseNitrogenada : public Entity {
 public:

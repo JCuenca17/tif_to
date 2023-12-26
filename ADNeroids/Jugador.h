@@ -6,9 +6,11 @@
 
 constexpr float JUG_ANCHO = 50.0f;
 constexpr float JUG_ALTO = 40.0f;
-constexpr float VEL_ANG = 200.0f;
-constexpr float VEL_JUG = 200.0f;
+constexpr float VEL_ANG = 100.0f;
+constexpr float VEL_JUG = 700.0f;
 constexpr float CAMBIO_DELAY = 0.2f;
+constexpr float VEL_DESACEL = 50.0f;
+constexpr float VEL_DESACEL_GIRO = 100.0f;
 
 class Jugador : public Entity {
 public:
@@ -26,4 +28,8 @@ private:
 	sf::VertexArray figura;
 	float disparoTimer;
 	float cambioProyectilTimer;
+	bool acelerando;  // Bandera para verificar si el jugador está acelerando
+	float velocidadActual;  // Velocidad actual del jugador
+	float velocidadMaxima;  // Velocidad máxima permitida
+	sf::Vector2f direccionActual;
 };
