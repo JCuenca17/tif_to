@@ -34,3 +34,7 @@
 # obsolete
 *.opendb
 *.vsidx
+
+# Other Directories
+ADNeroids/SFML-2.6.1/
+build/

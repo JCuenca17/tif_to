@@ -3,7 +3,7 @@
 #include "Fisicas.h"
 
 int main() {
-	sf::RenderWindow window(sf::VideoMode(unsigned int(ANCHO), unsigned int(ALTO)), "ADNeroids Game", sf::Style::Close | sf::Style::Titlebar);
+	sf::RenderWindow window(sf::VideoMode(ANCHO,ALTO), "ADNeroids Game", sf::Style::Close | sf::Style::Titlebar);
 	sf::Clock clock;
 
 	sf::VertexArray poly1(sf::LinesStrip);

@@ -1,5 +1,5 @@
 #include "Fisicas.h"
-#include <iostream>
+#include <limits>
 
 bool fisicas::intersecta(const sf::Vector2f& point, const sf::VertexArray& poligono) {
 	size_t n = poligono.getVertexCount() - 1;

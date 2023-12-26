@@ -4,7 +4,7 @@
 #include "Fisicas.h"
 #include "BaseNitrogenada.h"
 #include "Global.h"
-#include <iostream>
+#include <cmath>
 
 Jugador::Jugador() 
 	: Entity(sf::Vector2f(ANCHO / 2, ALTO / 2), 0, AMARILLO), figura(sf::LinesStrip, 4), disparoTimer() {

@@ -22,28 +22,30 @@ add_executable(ADNeroids ${SOURCES})
 
 # Copiar archivos de recursos al directorio de salida del ejecutable
 foreach(RESOURCE ${RESOURCES})
-    configure_file(${RESOURCE} ${CMAKE_CURRENT_BINARY_DIR}/Debug/${RESOURCE} COPYONLY)
+    configure_file(${RESOURCE} ${CMAKE_CURRENT_BINARY_DIR}/${RESOURCE} COPYONLY)
 endforeach()
 
 # Configuración de SFML (reemplaza con tu configuración actual)
-set(SFML_DIR "C:/SFML-2.6.1/lib/cmake/SFML")
+set(SFML_DIR "SFML-2.6.1/lib/cmake/SFML")
 find_package(SFML 2.6 COMPONENTS graphics audio window system network REQUIRED)
-include_directories("C:/SFML-2.6.1/include")
+include_directories("SFML-2.6.1/include")
 
-# Obtener las bibliotecas de SFML sin el sufijo -d
+# Obtener las bibliotecas de SFML con el sufijo -d
 set(SFML_LIBRARIES
-    sfml-graphics
-    sfml-window
-    sfml-audio
-    sfml-system
-    sfml-network
+    sfml-graphics-d
+    sfml-audio-d
+    sfml-window-d
+    sfml-system-d
+    sfml-network-d
+
 )
 
 # Enlazar SFML con el ejecutable
-target_link_libraries(ADNeroids PRIVATE ${SFML_LIBRARIES})
+target_link_libraries(ADNeroids PUBLIC ${SFML_LIBRARIES})
 
 # Copiar DLLs a la carpeta de salida
 add_custom_command(TARGET ADNeroids POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
-                   "C:/SFML-2.6.1/bin"
+                   "${CMAKE_SOURCE_DIR}/SFML-2.6.1/bin"
                    $<TARGET_FILE_DIR:ADNeroids>)
+
