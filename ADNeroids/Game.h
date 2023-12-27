@@ -25,9 +25,12 @@ public:
 	
 private:
 	static float baseSpawnTime;
+	static size_t highScore;
+
 	static sf::Text puntuacionText;
 	static sf::Text gameOverText;
 	static sf::Text continueText;
+	static sf::Text highScoreText;
 	static sf::Text titleText;
 	static sf::Text menuText;
 	static sf::Text playText;

@@ -3,6 +3,9 @@
 #include "Jugador.h"
 #include "Bases.h"
 #include <random>
+
+#include <fstream>
+
 // Public static
 std::vector<Entity*> Game::entidades{};
 std::list<std::vector<Entity*>::const_iterator> Game::toRemoveList{};
@@ -13,16 +16,25 @@ sf::Sound Game::disparoSonido{};
 
 // Private static
 float Game::baseSpawnTime{};
+size_t Game::highScore{};
 sf::Text Game::puntuacionText{};
 sf::Text Game::continueText{};
 sf::Font Game::fuente{};
 sf::Text Game::gameOverText{};
+sf::Text Game::highScoreText{};
 Game::State Game::state{};
 sf::Text Game::titleText{};
 sf::Text Game::menuText;
 sf::Text Game::playText;
 
 void Game::init() {
+	std::ifstream file("score.dat", std::ios::binary | std::ios::in);
+
+	if (file.is_open()) {
+		file.read(reinterpret_cast<char*>(&highScore), sizeof(size_t));
+		file.close();
+	}
+
 	fuente.loadFromFile("font.ttf");
 	puntuacionText.setFont(fuente);
 	puntuacionText.setPosition(sf::Vector2f(30, 20));
@@ -36,12 +48,17 @@ void Game::init() {
 	continueText.setFont(fuente);
 	continueText.setPosition(sf::Vector2f(450, 550));
 	continueText.setCharacterSize(24);
-	continueText.setString("Press Enter to continue...");
+	continueText.setString("Presiona Enter para continuar...");
 	
+	highScoreText.setFont(fuente);
+	highScoreText.setPosition(sf::Vector2f(40,20));
+	highScoreText.setCharacterSize(48);
+	highScoreText.setString("Maxima Puntuacion: " + std::to_string(highScore));
+
 	menuText.setFont(fuente);
 	menuText.setPosition(sf::Vector2f(430, 650));
 	menuText.setCharacterSize(24);
-	menuText.setString("Press ESCAPE to exit to menu...");
+	menuText.setString("Presiona ESCAPE para salir al menu");
 
 	titleText.setFont(fuente);
 	titleText.setPosition(sf::Vector2f(350, 350));
@@ -51,7 +68,7 @@ void Game::init() {
 	playText.setFont(fuente);
 	playText.setPosition(sf::Vector2f(550, 550));
 	playText.setCharacterSize(24);
-	playText.setString("Press Enter to Play");
+	playText.setString("Presiona Enter para Jugar");
 
 	disparoSoundBuffer.loadFromFile("shoot.wav");
 	disparoSonido.setBuffer(disparoSoundBuffer);
@@ -63,12 +80,14 @@ void Game::begin() {
 	state = PLAYING;
 	entidades.push_back(new Jugador());
 	float baseSpawnTime = BASE_SPAWN_TIME;
+
 	puntuacion = 0;
 }
 
 void Game::update(sf::RenderWindow& window, float deltaTime) {
 
 	if (state == MENU) {
+		window.draw(highScoreText);
 		window.draw(titleText);
 		window.draw(playText);
 
@@ -135,5 +154,19 @@ void Game::update(sf::RenderWindow& window, float deltaTime) {
 }
 
 void Game::gameOver() {
+	if (puntuacion > highScore) {
+		highScore = puntuacion;
+		std::ofstream file("score.dat", std::ios::binary | std::ios::out);
+		if (file.is_open()) {
+			file.write(reinterpret_cast<const char*>(&highScore), sizeof(size_t));
+			file.close();
+		}
+		else {
+			printf("Failed to write high score to file!\n");
+		}
+
+		highScoreText.setString("Maxima Puntuacion: " + std::to_string(highScore));
+	}
+
 	state = GAME_OVER;
 }
