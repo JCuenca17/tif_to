@@ -11,18 +11,25 @@ std::vector<Entity*> Game::entidades{};
 std::list<std::vector<Entity*>::const_iterator> Game::toRemoveList{};
 std::list<Entity*> Game::toAddList{};
 size_t Game::puntuacion{};
+//Disparo Sound
 sf::SoundBuffer Game::disparoSoundBuffer{};
 sf::Sound Game::disparoSonido{};
+//Aceleracion Sound
+sf::SoundBuffer Game::aceleracionSoundBuffer{};
+sf::Sound Game::aceleracionSonido{};
+// Explosion Sound
+sf::SoundBuffer Game::explosionSoundBuffer{};
+sf::Sound Game::explosionSonido{};
 
 // Private static
+sf::Font Game::fuente{};
 float Game::baseSpawnTime{};
+Game::State Game::state{};
 size_t Game::highScore{};
 sf::Text Game::puntuacionText{};
 sf::Text Game::continueText{};
-sf::Font Game::fuente{};
 sf::Text Game::gameOverText{};
 sf::Text Game::highScoreText{};
-Game::State Game::state{};
 sf::Text Game::titleText{};
 sf::Text Game::menuText;
 sf::Text Game::playText;
@@ -72,6 +79,12 @@ void Game::init() {
 
 	disparoSoundBuffer.loadFromFile("shoot.wav");
 	disparoSonido.setBuffer(disparoSoundBuffer);
+
+	aceleracionSoundBuffer.loadFromFile("thrust.wav");
+	aceleracionSonido.setBuffer(aceleracionSoundBuffer);
+
+	explosionSoundBuffer.loadFromFile("bangMedium.wav");
+	explosionSonido.setBuffer(explosionSoundBuffer);
 
 	state = MENU;
 }

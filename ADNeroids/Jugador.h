@@ -6,7 +6,7 @@
 
 constexpr float JUG_ANCHO = 50.0f;
 constexpr float JUG_ALTO = 40.0f;
-constexpr float VEL_ANG = 200.0f;
+constexpr float VEL_ANG = 300.0f;
 constexpr float VEL_JUG = 600.0f;
 constexpr float CAMBIO_DELAY = 0.2f;
 constexpr float VEL_DESACEL = 50.0f;

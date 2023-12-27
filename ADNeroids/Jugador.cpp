@@ -44,6 +44,7 @@ void Jugador::update(float deltaTime) {
 
 	// Solo actualiza la dirección de movimiento cuando se presiona "Up"
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+		Game::aceleracionSonido.play();
 		acelerando = true;
 		velocidadActual += VEL_JUG * deltaTime;
 		if (velocidadActual > velocidadMaxima) {

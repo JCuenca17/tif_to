@@ -33,6 +33,7 @@ void Proyectil::update(float deltaTime) {
 					(this->color == VERDE && base->color == AZUL) ||
 					(this->color == AZUL && base->color == VERDE)) {
 
+					Game::explosionSonido.play();
 					Game::toRemoveList.push_back(
 						std::find(Game::entidades.begin(), Game::entidades.end(), base));
 					Game::puntuacion += 10;

@@ -15,6 +15,9 @@ set(SOURCES
 set(RESOURCES
     font.ttf
     shoot.wav
+    thrust.waw
+    bangMedium.wav
+    score.dat
 )
 
 # Agregar los archivos fuente al ejecutable

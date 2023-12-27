@@ -20,8 +20,18 @@ public:
 
 	static size_t puntuacion;
 
+	//Disparo Sound
 	static sf::SoundBuffer disparoSoundBuffer;
 	static sf::Sound disparoSonido;
+
+	//Aceleracion Sound
+	static sf::SoundBuffer aceleracionSoundBuffer;
+	static sf::Sound aceleracionSonido;
+	
+	// Explosion Sonido
+	static sf::SoundBuffer explosionSoundBuffer;
+	static sf::Sound explosionSonido;
+
 	
 private:
 	static float baseSpawnTime;
