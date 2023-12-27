@@ -28,8 +28,12 @@ private:
 	static sf::Text puntuacionText;
 	static sf::Text gameOverText;
 	static sf::Text continueText;
+	static sf::Text titleText;
+	static sf::Text menuText;
+	static sf::Text playText;
 	static sf::Font fuente;
-	static bool isGameOver;
+
+	static enum State { MENU, PLAYING, GAME_OVER} state;
 
 };
 

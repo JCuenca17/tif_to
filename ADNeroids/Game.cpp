@@ -16,8 +16,11 @@ float Game::baseSpawnTime{};
 sf::Text Game::puntuacionText{};
 sf::Text Game::continueText{};
 sf::Font Game::fuente{};
-bool Game::isGameOver{};
 sf::Text Game::gameOverText{};
+Game::State Game::state{};
+sf::Text Game::titleText{};
+sf::Text Game::menuText;
+sf::Text Game::playText;
 
 void Game::init() {
 	fuente.loadFromFile("font.ttf");
@@ -34,22 +37,49 @@ void Game::init() {
 	continueText.setPosition(sf::Vector2f(450, 550));
 	continueText.setCharacterSize(24);
 	continueText.setString("Press Enter to continue...");
+	
+	menuText.setFont(fuente);
+	menuText.setPosition(sf::Vector2f(430, 650));
+	menuText.setCharacterSize(24);
+	menuText.setString("Press ESCAPE to exit to menu...");
+
+	titleText.setFont(fuente);
+	titleText.setPosition(sf::Vector2f(350, 350));
+	titleText.setCharacterSize(128);
+	titleText.setString("ADNEROIDS");
+
+	playText.setFont(fuente);
+	playText.setPosition(sf::Vector2f(550, 550));
+	playText.setCharacterSize(24);
+	playText.setString("Press Enter to Play");
 
 	disparoSoundBuffer.loadFromFile("shoot.wav");
 	disparoSonido.setBuffer(disparoSoundBuffer);
+
+	state = MENU;
 }
 
 void Game::begin() {
-	isGameOver = false;
+	state = PLAYING;
 	entidades.push_back(new Jugador());
 	float baseSpawnTime = BASE_SPAWN_TIME;
+	puntuacion = 0;
 }
 
 void Game::update(sf::RenderWindow& window, float deltaTime) {
+
+	if (state == MENU) {
+		window.draw(titleText);
+		window.draw(playText);
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+			begin();
+		}
+		return;
+	}
+
 	toAddList.clear();
 	toRemoveList.clear();
-	window.clear();
-
 	baseSpawnTime -= deltaTime;
 
 	for (size_t i = 0; i < entidades.size(); i++) {
@@ -85,18 +115,25 @@ void Game::update(sf::RenderWindow& window, float deltaTime) {
 	puntuacionText.setString(std::to_string(puntuacion));
 	window.draw(puntuacionText);
 
-	if (isGameOver) {
+	if (state == GAME_OVER) {
 		entidades.clear();
 		puntuacion = 0;
 		window.draw(gameOverText);
 		window.draw(continueText);
+		window.draw(menuText);
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+			puntuacion = 0;
 			begin();
 		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+			state = MENU;
+		}
+
 	}
 }
 
 void Game::gameOver() {
-	isGameOver = true;
+	state = GAME_OVER;
 }
